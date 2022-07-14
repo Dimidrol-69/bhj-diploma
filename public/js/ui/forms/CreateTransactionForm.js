@@ -8,15 +8,31 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor(element) {
-    super(element)
+    super(element);
   }
 
   /**
    * Получает список счетов с помощью Account.list
    * Обновляет в форме всплывающего окна выпадающий список
    * */
-  renderAccountsList() {
+  renderAccountsList() { 
+    Account.list(null, (err, response) => {
+      if (response && response.success) {
+          this.clear();
+          response.data.forEach(item => {
+          this.element[3].insertAdjacentHTML('beforeend', `<option value="${item.id}">${item.name}</option>`);
+        }); 
+      } else console.error('Ответ сервера отрицательный!');
+    });
+  }
 
+  /**
+   * Очищает выпадающий список счетов
+   */
+  clear() {
+    while (this.element[3].children.length !== 0) {
+      this.element[3].children[0].remove();
+    };
   }
 
   /**
@@ -26,6 +42,13 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-
+    Transaction.create(data, (err, response) => {
+      if (response && response.success) {
+        this.element.reset();
+        App.update();
+        App.getModal('newIncome').close();
+        App.getModal('newExpense').close();
+      } else console.error('Ответ сервера отрицательный!');
+    });
   }
 }
