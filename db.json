@@ -11,6 +11,12 @@
       "email": "d@ya.ru",
       "password": "123",
       "id": "2ah9u4vfk0l5f1nylq"
+    },
+    {
+      "name": "Dmitriy",
+      "email": "Dima@ya.ru",
+      "password": "1234",
+      "id": "2ah9u4vcbwl5v3ac9h"
     }
   ],
   "accounts": [
@@ -28,6 +34,16 @@
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "name": "Visa",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "id": "2ah9u4vci8l5nw8lw8"
+    },
+    {
+      "name": "Mir",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "id": "2ah9u4vavsl5sgz4j1"
     }
   ],
   "transactions": [
@@ -165,6 +181,87 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "2ah9u4vrsl5nwsvnc",
+      "type": "expense",
+      "name": "Burger",
+      "sum": 1010,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-16T13:12:54.840Z"
+    },
+    {
+      "id": "2ah9u4vrsl5nwtaso",
+      "type": "income",
+      "name": "Salary",
+      "sum": 15000,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-16T13:13:14.472Z"
+    },
+    {
+      "id": "2ah9u4vrsl5nwv98a",
+      "type": "income",
+      "name": "Salary",
+      "sum": 13500,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-16T13:14:45.754Z"
+    },
+    {
+      "id": "2ah9u4v920l5pehovj",
+      "type": "income",
+      "name": "Salary",
+      "sum": 45000,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-17T14:15:52.110Z"
+    },
+    {
+      "id": "2ah9u4v920l5pei4yx",
+      "type": "expense",
+      "name": "Mobile",
+      "sum": 500,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-17T14:16:12.969Z"
+    },
+    {
+      "id": "2ah9u4v6eol5pkus1n",
+      "type": "expense",
+      "name": "Hero",
+      "sum": 14999,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-17T17:14:00.442Z"
+    },
+    {
+      "id": "2ah9u4vavsl5sgy4qc",
+      "type": "expense",
+      "name": "Коммуналка",
+      "sum": 4500,
+      "account_id": "2ah9u4vci8l5nw8lw8",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-19T17:47:56.915Z"
+    },
+    {
+      "id": "2ah9u4vavsl5sh3guo",
+      "type": "income",
+      "name": "Salary",
+      "sum": 45000,
+      "account_id": "2ah9u4vavsl5sgz4j1",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-19T17:52:05.904Z"
+    },
+    {
+      "id": "2ah9u4v934l5ty9z3w",
+      "type": "expense",
+      "name": "Burger",
+      "sum": 234,
+      "account_id": "2ah9u4vavsl5sgz4j1",
+      "user_id": "2ah9u4vfk0l5f1nylq",
+      "created_at": "2022-07-20T18:40:49.147Z"
     }
   ]
 }

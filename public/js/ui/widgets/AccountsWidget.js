@@ -76,7 +76,7 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount( element ) {
+  onSelectAccount(element) {
     const activeAcc = this.element.getElementsByClassName('account');
     [...activeAcc].forEach(i => {
       i.classList.remove('active');

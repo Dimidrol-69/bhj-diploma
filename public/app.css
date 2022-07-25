@@ -35,6 +35,18 @@
   cursor: pointer;
 }
 
+.sort {
+  margin-top: 20px;
+}
+
+.sum, .date, .transactions {
+  border: 0;
+}
+
+.sort-color {
+  color: rgb(225, 28, 28);
+}
+
 .transaction {
   border-bottom: 1px solid lightgray;
 }

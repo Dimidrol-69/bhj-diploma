@@ -13,6 +13,7 @@ class TransactionsPage {
   constructor( element ) {
     if (!element) console.error('Переданный элемент не существует!');
     this.element = element;
+    this.dir = false;
     this.registerEvents();
   }
 
@@ -20,7 +21,7 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    if (this.lastOptions) this.render(this.lastOptions);
+    if (typeof this.lastOptions !== 'undefined') this.render(this.lastOptions);
   }
 
   /**
@@ -31,17 +32,47 @@ class TransactionsPage {
    * */
   registerEvents() {
     this.element.querySelector('.remove-account').addEventListener('click', (e) => {
-        e.preventDefault();
-        this.removeAccount();
+      e.preventDefault();
+      this.removeAccount();
     });
     this.element.querySelector('.content').addEventListener('click', (e) => {
       e.preventDefault();
         if (e.target.classList.contains('transaction__remove') ||
-            e.target.classList.contains('fa-trash')) {
-            let removeId = this.element.querySelector('.transaction__remove').dataset;
+        e.target.classList.contains('fa-trash')) {
+            let removeId = e.target.closest('.transaction__remove').dataset;
             this.removeTransaction(removeId);
         }
     });
+    this.element.querySelector('.sort').addEventListener('click', (e) => {
+      e.preventDefault();
+        if (e.target.classList.contains('sum')) {
+          this.prop = 'sum';
+          e.target.firstElementChild.classList.toggle('fa-sort-amount-desc');
+          this.sortVariant(e.target);
+        } else if (e.target.classList.contains('date')) {
+            this.prop = 'created_at';
+            e.target.firstElementChild.classList.toggle('fa-sort-amount-desc');
+            this.sortVariant(e.target);
+        } else if (e.target.classList.contains('transactions')) {
+            this.prop = 'type';
+            this.sortVariant(e.target);
+            this.dir ? e.target.textContent = 'по расходу/доходу' : e.target.textContent = 'по доходу/расходу';
+        }
+      });
+    }
+
+/** 
+ * Отрисовка страницы с выбранным типом сортировки и 
+ * установка активного типа сортировки
+*/
+  sortVariant(active) {
+    if (typeof this.lastOptions === 'undefined') return; 
+    this.dir = !this.dir;
+    this.update();
+    [...this.element.querySelector('.sort').children].forEach(item => {
+      item.classList.remove('sort-color');
+    }); 
+      active.classList.add('sort-color');
   }
 
   /**
@@ -89,7 +120,7 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
-    if (!options) return;
+    if (!options.account_id) return;
     this.clear();
     this.lastOptions = options;
     
@@ -101,7 +132,7 @@ class TransactionsPage {
     
     Transaction.list(options, (err, response) => {
       if (response && response.success) {
-          this.renderTransactions(response.data);
+          this.sortTransaction(response.data);
       } else console.error('Ответ сервера отрицательный!');
     });
   }
@@ -112,7 +143,7 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-    let container = this.element.querySelector('.content');
+    const container = this.element.querySelector('.content');
       while (container.firstChild) {
         container.removeChild(container.firstChild);
       }
@@ -144,18 +175,28 @@ class TransactionsPage {
   }
 
   /**
+   * Сортирует выводимые транзакции
+   */
+  sortTransaction(data) { 
+    data.sort((a, b) => {
+      if (!this.dir ? a[this.prop] > b[this.prop] : a[this.prop] < b[this.prop]) return -1;
+    }); 
+    this.renderTransactions(data);
+  }
+
+  /**
    * 
    * Формирует HTML-код транзакции (дохода или расхода).
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML(item){
-    return `<div class="transaction transaction_${item.type} row">
-              <div class="col-md-7 transaction__details">
-                <div class="transaction__icon">
-                    <span class="fa fa-money fa-2x"></span>
-                </div>
+    return `  <div class="transaction transaction_${item.type} row">
+                <div class="col-md-7 transaction__details">
+                  <div class="transaction__icon">
+                      <span class="fa fa-money fa-2x"></span>
+                  </div>
                 <div class="transaction__info">
-                    <h4 class="transaction__title">${this.numberWithSpace(item.sum)}</h4>
+                    <h4 class="transaction__title">${item.name}</h4>
                     <div class="transaction__date">${this.formatDate(item.created_at)}</div>
                 </div>
                 </div>
@@ -175,8 +216,8 @@ class TransactionsPage {
    * Отрисовывает список транзакций на странице
    * используя getTransactionHTML
    * */
-  renderTransactions(data){
-    for (let i = data.length - 1; i >= 0; i--) {
+  renderTransactions(data){ 
+    for (let i = 0; i < data.length; i++) {
        this.element.querySelector('.content').insertAdjacentHTML('beforeend', this.getTransactionHTML(data[i]));
     }
   }
